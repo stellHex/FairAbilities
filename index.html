@@ -3,12 +3,12 @@
 <body id="the bod" style="font-family:courier;font-size:200%;font-weight:bold">
 <div id = nojs>>:[ You have JavaScript disabled.</div>
 <table>
-<tr id=STR><td>STR </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
-<tr id=DEX><td>DEX </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
-<tr id=CON><td>CON </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
-<tr id=INT><td>INT </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
-<tr id=WIS><td>WIS </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
-<tr id=CHA><td>CHA </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=STR><td>STR </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td style=font-size:150%>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=DEX><td>DEX </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td style=font-size:150%>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=CON><td>CON </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td style=font-size:150%>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=INT><td>INT </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td style=font-size:150%>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=WIS><td>WIS </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td style=font-size:150%>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=CHA><td>CHA </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td style=font-size:150%>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
 <tr><td></td><td></td><td></td><td id=tot>10.44</td><td>/30</td></tr>
 <tr><td></td><td></td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td></td></tr>
 </table>
@@ -64,7 +64,7 @@ function officiate(activeScore){
 	totDisp.innerHTML = add0(pointSum()/100,5)
 	for (var score in coloration) {
 		var whatever = parseInt(coloration[score].innerHTML.replace(".",""))
-		coloration[score].style.color = whatever&&whatever>3000-pointSum()?"red":"black"
+		coloration[score].style.color = whatever&&whatever>3000-pointSum()?"#cccccc":"black"
 	}
 }
 document.addEventListener("mouseup", function(){totDisp.style.color = "black"})
