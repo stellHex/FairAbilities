@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<body id="the bod" style="font-family:courier;font-size:200%;font-weight:bold">
+<div id = nojs>>:[ You have JavaScript disabled.</div>
+<table>
+<tr id=STR><td>STR </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=DEX><td>DEX </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=CON><td>CON </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=INT><td>INT </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=WIS><td>WIS </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr id=CHA><td>CHA </td><td><input type=range min=0 max=1000 defaultValue=0></input></td><td>10</td><td style=text-align:right>1.74</td><td style=font-size:60%><div>+0.94</div><div>-0.70</div></td></tr>
+<tr><td></td><td></td><td></td><td id=tot>10.44</td><td>/30</td></tr>
+<tr><td></td><td></td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td></td></tr>
+</table>
+<script>
+function getElem(elemname){return document.getElementById(elemname)}
+getElem("nojs").parentNode.removeChild(getElem("nojs"))
+var masterList = [getElem("STR"), getElem("DEX"), getElem("CON"), getElem("INT"), getElem("WIS"), getElem("CHA")]
+var totDisp = getElem("tot")
+var abList = []; coloration = []
+for (var score in masterList) {
+	abList[score] = masterList[score].children[1].firstChild
+	abList[score].value = 174
+	abList[score].addEventListener("input", activativate(abList[score]))
+	coloration[score] = masterList[score].children[4].firstChild
+}
+var scoreSum = 12*6
+var abCosts = [0, 1, 4, 12, 27, 56, 104, 174, 268, 382, 511, 644, 769, 871, 944, 984];
+//the code for how I arrived at these numbers is commented out at the bottom of this script.
+function pointSum() {var res=0; for (score in abList) {res+=parseInt(abList[score].value)} return res}
+function activativate(elem){return function(){officiate(elem)}}
+function add0 (str, goal){
+	str += ""
+	if (str.length<goal){
+		if (str.indexOf(".")==-1){str+="."}
+		while (str.length<goal) {str+="0"}
+		return str
+	}
+	else {return str}
+}
+	
+function officiate(activeScore){
+	if (pointSum()>3000){totDisp.style.color = "red"}
+	else {totDisp.style.color = "black"}
+	for (var i=3-3; i<=18-3 && activeScore.value>abCosts[i]; i++) {}
+	if (i!=16) {
+		if (activeScore.value<(abCosts[i-1]+abCosts[i])/2) {activeScore.value=abCosts[i-1]}
+		else {activeScore.value = abCosts[i]}
+	}
+	else {activeScore.value = abCosts[i-1]}
+	var howHIGHdoyouevenhavetoBE = abCosts.indexOf(parseInt(activeScore.value));
+	while (pointSum()>3000 && howHIGHdoyouevenhavetoBE>0){
+		howHIGHdoyouevenhavetoBE-=1;
+		activeScore.value = abCosts[howHIGHdoyouevenhavetoBE];
+	}
+	var parent = activeScore.parentNode.parentNode.children
+	parent[2].innerHTML = howHIGHdoyouevenhavetoBE+3
+	parent[3].innerHTML = add0(activeScore.value/100,4)
+	var howHigh = howHIGHdoyouevenhavetoBE
+	var uppity = abCosts[howHigh+1]?"+"+((abCosts[howHigh+1]-abCosts[howHigh])/100):"&nbsp;"
+	var underdog = abCosts[howHigh-1]?""+((abCosts[howHigh-1]-abCosts[howHigh])/100):"&nbsp;"
+	parent[4].firstChild.innerHTML = add0(uppity,5)
+	parent[4].lastChild.innerHTML = add0(underdog,5)
+	totDisp.innerHTML = add0(pointSum()/100,5)
+	for (var score in coloration) {
+		var whatever = parseInt(coloration[score].innerHTML.replace(".",""))
+		coloration[score].style.color = whatever&&whatever>3000-pointSum()?"red":"black"
+	}
+}
+document.addEventListener("mouseup", function(){totDisp.style.color = "black"})
+
+
+/*function roll() {return Math.round(Math.random()*6+.5)}
+function abil() {var a = [roll(),roll(),roll(),roll()].sort(function(a,b){return a-b}); return a[1]+a[2]+a[3]}
+var rolls = [];
+for (var i=0; i<Math.pow(2,16); i++){
+	var x = abil();
+	if (rolls.indexOf(x)!=-1) {rolls.splice(rolls.indexOf(x),0,x)}
+	else {
+		for (var j=x; j<=18 && rolls.indexOf(j)<0; j++){}
+		if (j>18) {rolls.push(x)}
+		else {rolls.splice(rolls.indexOf(j),0,x)}
+	}
+}
+var w; var x = []; var y = []; var z = 0
+for (var i=3; i<=18; i++){
+	w=Math.round(rolls.indexOf(i)/rolls.length*10*100)
+    x.push(w/100)
+	y.push((w-z)/100)
+	z = w
+}
+z = []
+for (i in x){
+	z[i] = ""+(parseInt(i)+3)+": "+x[i]+ " (+"+y[i]+")"
+}
+console.log(z)*/
+</script>
+</body>
+</html>
